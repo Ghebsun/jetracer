@@ -25,7 +25,7 @@ class NvidiaRacecar(Racecar):
     
     @traitlets.observe('throttle')
     def _on_throttle(self, change):
-        if change['new'] > 0:
+        if change['new'] * self.throttle_gain > 0:
             self.motor._pca.channels[0].duty_cycle = int(0xFFFF * (change['new'] * self.throttle_gain))
             self.motor._pca.channels[1].duty_cycle = 0xFFFF
             self.motor._pca.channels[2].duty_cycle = 0
